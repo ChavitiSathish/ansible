@@ -36,3 +36,14 @@
     - name: Print a Fact Variable
       ansible.builtin.debug:
         msg: "Hostname = {{ansible_hostname}}"
+
+- name: Demo on Register Variables
+  hosts: all
+  tasks:
+    - name: Run Uptime Command
+      ansible.builtin.shell: uptime
+      register: out
+
+    - name: Print output
+      ansible.builtin.debug:
+        msg: "{{out}}"
