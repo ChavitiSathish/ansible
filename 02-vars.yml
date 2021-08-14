@@ -35,4 +35,4 @@
   tasks:
     - name: Print a Fact Variable
       ansible.builtin.debug:
-        msg: "Hostname = {{ansible_fqdn}}"
+        msg: "Hostname = {{ansible_hostname}}"
