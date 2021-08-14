@@ -6,10 +6,10 @@
     - name: Print a Variable
       ansible.builtin.debug:
         msg: "URL = {{URL}}"
-    - name: Print Task Variable
-       ansible.builtin.debug:
-         msg: "URL = {{URL}}"
-       vars:
+    - name: Print a Variable
+      ansible.builtin.debug:
+        msg: "URL = {{URL}}"
+      vars:
         URL: task.google.com
 
 ## When there is a variable reference(calling variable), Double quote it
