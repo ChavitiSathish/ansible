@@ -21,7 +21,7 @@
       ansible.builtin.debug:
         msg: "URL = {{URL}}"
 
-- name: Demo on variables
+- name: Demo on File variables
   hosts: all
   vars_files:
     - vars.yml
