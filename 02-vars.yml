@@ -52,7 +52,7 @@
       ansible.builtin.debug:
         msg: "{{UPTIME}}"
 
-- name: Demo on Roles
+- name: Demo on Register Variables
   hosts: all
   roles:
-    -name: demo
+    - name: demo
