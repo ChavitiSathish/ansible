@@ -1,0 +1,22 @@
+- name: Install NodeJS
+  yum:
+    name: [ "nodejs", "make", "gcc-c++" ]
+    state: present
+
+- name: Add Roboshop Application User
+  ansible.builtin.user:
+    name: roboshop
+
+- name: Copy the extracted content
+  copy:
+    src: /tmp/catalogue-main/
+    dest: /home/roboshop/catalogue/
+    remote_src: yes
+    owner: roboshop
+    group: roboshop
+
+- name: Install {{COMPONENT}} Dependencies
+  community.general.npm:
+    path: /home/roboshop/{{COMPONENT}}
+    state: latest
+  become_user: roboshop
