@@ -1,4 +1,4 @@
-- name: Demo on When Conditions
+- name: Demo on Conditions
   hosts: localhost
   vars:
     URL: google.com
