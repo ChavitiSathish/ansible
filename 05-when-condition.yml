@@ -2,6 +2,8 @@
   hosts: localhost
   vars:
     URL: google.org
+    a: 10
+    ACTION: false
   tasks:
     - name: Condition on Strings
       when: URL == "google.com"
