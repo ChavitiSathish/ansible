@@ -1,0 +1,13 @@
+- name: Demo on When Conditions
+  hosts: localhost
+  URL: google.com
+  tasks:
+    - name: Condition on Strings
+      when: URL == "google.com"
+      debug:
+        msg: Heloo
+
+    - name: Condition on Strings
+      when: URL ==! "google.com"
+      debug:
+        msg: World
