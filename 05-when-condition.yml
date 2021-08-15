@@ -9,6 +9,6 @@
         msg: Heloo
 
     - name: Condition on Strings
-      when: URL ==! "google.com"
+      when: URL =! "google.com"
       debug:
         msg: World
