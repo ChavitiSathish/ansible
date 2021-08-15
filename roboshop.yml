@@ -4,8 +4,3 @@
   roles:
     - name: frontend
 
-- name: Roboshop MongoDb Setup
-  hosts: frontend.mongodb.internal
-  become: yes
-  roles:
-    - name: mongodb
