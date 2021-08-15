@@ -2,8 +2,3 @@
   hosts: all
   roles: yes
     - name: frontend
-      become: yes
-      ## This makes only this task to run as sudo
-      ansible.builtin.yum:
-        name: nodejs
-        state: present
