@@ -1,11 +1,11 @@
 - name: Roboshop Frontend Setup
-  hosts: FRONTEND
+  hosts: frontend.roboshop.internal
   become: yes
   roles:
     - name: frontend
 
 - name: Roboshop MongoDb Setup
-  hosts: MONGODB
+  hosts: frontend.mongodb.internal
   become: yes
   roles:
     - name: mongodb
