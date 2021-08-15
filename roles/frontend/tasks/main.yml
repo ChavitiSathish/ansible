@@ -20,6 +20,17 @@
     dest: /usr/share/nginx/html/
     remote_src: yes
 
+- name: Copy the Roboshop Configuration File
+  copy:
+    src: roboshop.conf
+    dest: /etc/nginx/default.d/roboshop.conf
+
+- name: Restart Nginx Service
+  systemd:
+    name: nginx
+    state: restarted
+    enabled: yes
+
 
 
 
