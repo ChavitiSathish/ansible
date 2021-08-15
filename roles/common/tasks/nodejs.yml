@@ -29,11 +29,11 @@
 - name: Update SystemD Configuration
   copy:
     src: systemd.service
-    dest: /etc/systemd/system/catalogue.service
+    dest: /etc/systemd/system/{{COMPONENT}}.service
 
-- name: Restart Catalogue Service
+- name: Restart {{COMPONENT}} Service
   systemd:
-    name: catalogue
+    name: {{COMPONENT}}
     state: restarted
     enabled: yes
     daemon_reload: yes
