@@ -36,3 +36,9 @@
       when: not ACTION
       debug:
         msg: Hello
+
+
+    - name: Run If Variable B is Declared
+          when: B is defined
+          debug:
+            msg: Hello
