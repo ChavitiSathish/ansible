@@ -14,3 +14,25 @@
       when: URL != "google.com"
       debug:
         msg: World
+
+    - name: Condition on Numbers
+      when: a == 10
+      debug:
+        msg: Number is 10
+
+    - name: Condition on Numbers
+      when: a <= 10
+      debug:
+        msg: Number is less than 10
+
+
+    - name: Run If Action Is True
+      when: ACTION
+      debug:
+        msg: Hello
+
+
+    - name: Run If Action Is Not True
+      when: not ACTION
+      debug:
+        msg: Hello
