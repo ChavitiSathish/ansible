@@ -3,10 +3,15 @@
     name: maven
     state: present
 
-- name: Add Roboshop Application User
-  ansible.builtin.user:
-    name: roboshop
+- name: Download AppCode & App User
+  include_tasks:
+    file: download.yml
 
-- name: Download Github
+- name: Compile the Packages
+  shell: mvn clean package
+  args:
+    chdir: /home/roboshop/{{COMPONENT}}
+
+- name: Setup SystemD
   include_tasks:
     file: download.yml

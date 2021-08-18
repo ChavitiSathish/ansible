@@ -29,7 +29,7 @@
 
 - name: Reset MySQL Password
   when: default_mysql_check.failed
-  shell: echo "ALTER USER 'root'@'localhost' IDENTIFIED BY 'Roboshop@1';" | mysql --connect-expired-password -uroot -p{{out.stdout}}
+  shell: echo "ALTER USER 'root'@'localhost' IDENTIFIED BY 'Roboshop@1';" | mysql --connect-expired-password -uroot -p"{{out.stdout}}"
 
 - name: Uniistall Password Validate Plugin
   community.mysql.mysql_query:
