@@ -15,11 +15,38 @@
     enabled: yes
 
 - name: Check the default Password
-  shell: echo "show databases;" | mysql -uroot -pRoboShop@1
-  register: default_mysql_check
-  ignore_errors: yes
+  community.mysql.mysql_query:
+    query: show databases
+    login_password: RoboShop@1
+    login_user: root
+    register: default_mysql_check
+    ignore_errors: yes
 
 - name: Grab Default Password
-  shell: grep 'A temporary password' /var/log/mysqld.log | awk '{print NF}'
+  when: default_mysql_check.failed
+  shell: grep 'A temporary password' /var/log/mysqld.log | awk '{print $NF}'
   register: out
 
+- name: Reset MySQL Password
+  when: default_mysql_check.failed
+  shell: echo "ALTER USER 'root'@'localhost' IDENTIFIED BY 'Roboshop@1';" | mysql --connect-expired-password -uroot -p{{out.stdout}}
+
+- name: Uniistall Password Validate Plugin
+  community.mysql.mysql_query:
+    query: uninstall plugin validate_password
+    login_password: RoboShop@1
+    login_user: root
+    ignore_errors: yes
+
+- name: Download and Extract Schema
+  include_role:
+    name: common
+    tasks_from: download
+
+- name: Load Schema
+  community.mysql.mysql.db:
+    state: import
+    name: all
+    target: /tmp/mysql-main/shipping.sql
+    login_user: root
+    login_password: RoboShop@1

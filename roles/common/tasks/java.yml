@@ -1,0 +1,12 @@
+- name: Install Maven
+  yum:
+    name: maven
+    state: present
+
+- name: Add Roboshop Application User
+  ansible.builtin.user:
+    name: roboshop
+
+- name: Download Github
+  include_tasks:
+    file: download.yml
