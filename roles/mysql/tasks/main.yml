@@ -44,7 +44,7 @@
     tasks_from: download
 
 - name: Load Schema
-  community.mysql.mysql.db:
+  community.mysql.mysql_db:
     state: import
     name: all
     target: /tmp/mysql-main/shipping.sql
