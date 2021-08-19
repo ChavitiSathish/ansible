@@ -1,4 +1,4 @@
-- name: Create A MongoDB Repo
+- name: Create a MongoDB repo
   copy:
     src: mongo.repo
     dest: /etc/yum.repos.d/mongo.repo
@@ -10,7 +10,7 @@
 
 - name: Update MongoDB Listen Address
   ansible.builtin.replace:
-    path: /etc/mongod.conf
+    path:  /etc/mongod.conf
     regexp: '127.0.0.1'
     replace: '0.0.0.0'
 
@@ -19,7 +19,7 @@
     name: mongod
     state: started
 
-- name: Download and Extract MongoDB Schema
+- name: Download and Extract Frontend content
   include_role:
     name: common
     tasks_from: download
@@ -31,6 +31,7 @@
   loop:
     - catalogue
     - users
+
 
 # Used in case of mapping
 #- name: Load Schema

@@ -9,14 +9,15 @@
     enablerepo: remi
     state: present
 
-- name: Change Listen Address of Redis
+- name: Change Listen Address of Redis Config
   ansible.builtin.replace:
-    path: /etc/redis.conf
+    path:  /etc/redis.conf
     regexp: '127.0.0.1'
     replace: '0.0.0.0'
 
-- name: Start Redis Service
+- name: Start redis service
   systemd:
     name: redis
     enabled: yes
     state: restarted
+

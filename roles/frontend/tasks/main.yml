@@ -3,17 +3,17 @@
     name: nginx
     state: installed
 
-- name: Remove Old Content
+- name: Remove old content
   ansible.builtin.file:
     path: /usr/share/nginx/html
     state: absent
 
-- name: Download and Extract Frontend Content
+- name: Download and Extract Frontend content
   include_role:
     name: common
     tasks_from: download
 
-- name: Copy the Extracted Content
+- name: Copy the extracted content
   copy:
     src: /tmp/frontend-main/static/
     dest: /usr/share/nginx/html/
@@ -29,7 +29,6 @@
     name: nginx
     state: restarted
     enabled: yes
-
 
 
 
