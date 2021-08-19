@@ -13,6 +13,14 @@
     state: latest
   become_user: roboshop
 
-- name: Setup SystemD
-  include_tasks:
-    file: systemd.yml
+- name: Update SystemD Configuration
+  template:
+    src: systemd.service
+    dest: /etc/systemd/system/{{COMPONENT}}.service
+  notify: Restart Service - Handler
+
+- name: Restart {{COMPONENT}} Service
+  systemd:
+    name: "{{COMPONENT}}"
+    state: restarted
+    enabled: yes
