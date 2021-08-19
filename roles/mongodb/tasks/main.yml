@@ -32,8 +32,6 @@
     - catalogue
     - users
 
-
-# Used in case of mapping
 #- name: Load Schema
 #  community.mongodb.mongodb_shell:
 #    file: "/tmp/mongodb-main/{{item.name}}.js"
@@ -41,6 +39,3 @@
 #  loop:
 #    - {name: "catalogue", idempotency: yes}
 #    - {name: "users", idempotency: yes}
-
-
-
