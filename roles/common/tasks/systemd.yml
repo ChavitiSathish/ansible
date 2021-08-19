@@ -1,5 +1,11 @@
+#- name: Update SystemD Configuration
+#  copy:
+#    src: systemd.service
+#    dest: /etc/systemd/system/{{COMPONENT}}.service
+#  notify: Restart service - Handler
+
 - name: Update SystemD Configuration
-  copy:
+  template:
     src: systemd.service
     dest: /etc/systemd/system/{{COMPONENT}}.service
   notify: Restart service - Handler
