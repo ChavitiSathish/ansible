@@ -5,7 +5,7 @@
 
 - name: Install MySQL Server
   yum:
-    name: mysql-community-server
+    name: [ "mysql-community-server", "MySQL-python" ]
     state: present
 
 - name: Start MySQL Service
@@ -14,31 +14,31 @@
     state: started
     enabled: yes
 
-- name: Check the default Password
+- name: Check the default password
   community.mysql.mysql_query:
     query: show databases
     login_password: RoboShop@1
     login_user: root
-    register: default_mysql_check
-    ignore_errors: yes
+     register: default_mysql_check
+     ignore_errors: yes
 
-- name: Grab Default Password
+- name: Grab default password
   when: default_mysql_check.failed
-  shell: grep 'A temporary password' /var/log/mysqld.log | awk '{print $NF}'
+  shell: grep 'A temporary password' /var/log/mysqld.log  | awk '{print $NF}'
   register: out
 
 - name: Reset MySQL Password
   when: default_mysql_check.failed
-  shell: echo "ALTER USER 'root'@'localhost' IDENTIFIED BY 'Roboshop@1';" | mysql --connect-expired-password -uroot -p"{{out.stdout}}"
+  shell: echo "ALTER USER 'root'@'localhost' IDENTIFIED BY 'RoboShop@1';" | mysql --connect-expired-password -uroot -p"{{out.stdout}}"
 
-- name: Uniistall Password Validate Plugin
+- name: Uninstall Validate Password Plugin
   community.mysql.mysql_query:
     query: uninstall plugin validate_password
     login_password: RoboShop@1
     login_user: root
     ignore_errors: yes
 
-- name: Download and Extract Schema
+- name: Download and Extract content
   include_role:
     name: common
     tasks_from: download
