@@ -8,7 +8,7 @@
     file: download.yml
 
 - name: Compile the Packages
-  shell: mvn clean package
+  shell: mvn clean package && mv target/shipping-1.0.jar shipping.jar
   args:
     chdir: /home/roboshop/{{COMPONENT}}
 
