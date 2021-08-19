@@ -21,10 +21,9 @@
 
 #- name: Copy the Roboshop Configuration File
 #  copy:
-#    src: roboshop.conf
-#    dest: /etc/nginx/default.d/roboshop.conf
-
-
+#  src: roboshop.conf
+#  dest: /etc/nginx/default.d/roboshop.conf
+-
 - name: Update the Roboshop Configuration File
   template:
     src: roboshop.conf
