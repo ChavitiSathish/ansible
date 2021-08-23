@@ -15,6 +15,9 @@ resource "aws_spot_instance_request" "cheap_worker" {
 }
 */
 
+/*
+*/
+
 resource "aws_instance" "app-instances" {
   count                       = length(var.APP_COMPONENTS)
   ami                         = "ami-074df373d6bafa625"
