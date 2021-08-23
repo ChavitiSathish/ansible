@@ -111,14 +111,6 @@ resource "aws_ec2_tag" "name-tag" {
   value                     = "${element(var.APP_COMPONENTS, count.index)}-${var.ENV}"
 }
 
-resource "aws_ec2_tag" "name-tag" {
-  count                     = length(var.DB_COMPONENTS)
-  resource_id                = element(aws_spot_instance_request.db-instances.*.spot_instance_id, count.index)
-  key                       = "Name"
-  #value                     = element(var.COMPONENTS, count.index)
-  value                     = "${element(var.DB_COMPONENTS, count.index)}-${var.ENV}"
-}
-
 
 resource "aws_route53_record" "app-records" {
   count                     = length(var.APP_COMPONENTS)
