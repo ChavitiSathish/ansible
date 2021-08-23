@@ -109,7 +109,6 @@ resource "aws_ec2_tag" "name-tag" {
   key                       = "Name"
   #value                     = element(var.COMPONENTS, count.index)
   value                     = "${element(var.APP_COMPONENTS, count.index)}-${var.ENV}"
-  value                     = "${element(var.DB_COMPONENTS, count.index)}-${var.ENV}"
 }
 
 
