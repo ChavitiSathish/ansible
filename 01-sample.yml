@@ -4,6 +4,9 @@
     - name: Print Hello
       ansible.builtin.debug:
         msg: Hello
+    - name: Print World
+      ansible.builtin.debug:
+        msg: World
 
 - name: Sample Play 2
   hosts: all
@@ -11,3 +14,14 @@
     - name: Print Bye
       ansible.builtin.debug:
         msg: Bye
+
+#- name: Sample Play 3
+#  hosts: all
+#  roles:
+#    - name: demo
+#      vars:
+#        MSG: Hello
+#
+#    - name: demo
+#      vars:
+#        MSG: World
