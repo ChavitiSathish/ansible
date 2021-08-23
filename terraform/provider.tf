@@ -2,12 +2,12 @@ provider "aws" {
   region = "us-east-1"
 }
 
-#for specific environements
+#for specific environments
 terraform {
   backend "s3" { }
 }
 
-#for Common environements
+#for Common environments
 
 #terraform {
 #  backend "s3" {
