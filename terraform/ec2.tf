@@ -108,7 +108,8 @@ resource "aws_ec2_tag" "name-tag" {
   resource_id                = element(aws_spot_instance_request.app-instances.*.spot_instance_id, count.index)
   key                       = "Name"
   #value                     = element(var.COMPONENTS, count.index)
-  value                     = "${element(var.APP_COMPONENTS, count.index)}-${var.ENV} ; ${element(var.DB_COMPONENTS, count.index)}-${var.ENV} "
+  value                     = "${element(var.APP_COMPONENTS, count.index)}-${var.ENV}"
+  value                     = "${element(var.DB_COMPONENTS, count.index)}-${var.ENV}"
 }
 
 
