@@ -46,7 +46,7 @@ resource "aws_route53_record" "app-records" {
   zone_id                   = "Z04263772W7C3YXB6H85"
   ttl                       = 300
   //records                   = [element(aws_instance.instances.*.private_ip, count.index)]
-  records                   = [element("aws_spot_instance_request".app-instances.*.private_ip, count.index)]
+  records                   = [element(aws_spot_instance_request.app-instances.*.private_ip, count.index)]
   //records                   = [element(aws_instance.app-instances.*.private_ip, count.index)]
 }
 
@@ -57,11 +57,11 @@ resource "aws_route53_record" "db-records" {
   zone_id                   = "Z04263772W7C3YXB6H85"
   ttl                       = 300
   //records                   = [element(aws_instance.instances.*.private_ip, count.index)]
-  records                   = [element("aws_spot_instance_request".db-instances.*.private_ip, count.index)]
+  records                   = [element(aws_spot_instance_request.db-instances.*.private_ip, count.index)]
 }
 
 locals {
-  COMPONENTS = concat("aws_spot_instance_request".db-instances.*.private_ip, "aws_spot_instance_request".app-instances.*.private_ip)
+  COMPONENTS = concat(aws_spot_instance_request.db-instances.*.private_ip, aws_spot_instance_request.app-instances.*.private_ip)
 }
 
 resource "local_file" "inventory-file" {
