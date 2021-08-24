@@ -15,7 +15,7 @@ resource "aws_spot_instance_request" "cheap_worker" {
 }
 */
 
-resource "aws_spot_instance_request" "app-instances" {
+resource "aws_instance" "app-instances" {
   count                       = length(var.APP_COMPONENTS)
   ami                         = "ami-074df373d6bafa625"
   spot_price                  = "0.0031"
@@ -29,7 +29,7 @@ resource "aws_spot_instance_request" "app-instances" {
   }
 }
 
-resource "aws_spot_instance_request" "db-instances" {
+resource "aws_instance" "db-instances" {
   count                       = length(var.DB_COMPONENTS)
   ami                         = "ami-074df373d6bafa625"
   instance_type               = "t3.micro"
@@ -46,7 +46,7 @@ resource "aws_route53_record" "app-records" {
   zone_id                   = "Z04263772W7C3YXB6H85"
   ttl                       = 300
   //records                   = [element(aws_instance.instances.*.private_ip, count.index)]
-  records                   = [element(aws_spot_instance_request.app-instances.*.private_ip, count.index)]
+  records                   = [element(aws_instance.app-instances.*.private_ip, count.index)]
   //records                   = [element(aws_instance.app-instances.*.private_ip, count.index)]
 }
 
@@ -57,15 +57,16 @@ resource "aws_route53_record" "db-records" {
   zone_id                   = "Z04263772W7C3YXB6H85"
   ttl                       = 300
   //records                   = [element(aws_instance.instances.*.private_ip, count.index)]
-  records                   = [element(aws_spot_instance_request.db-instances.*.private_ip, count.index)]
+  records                   = [element(aws_instance.db-instances.*.private_ip, count.index)]
 }
 
 locals {
-  COMPONENTS = concat(aws_spot_instance_request.db-instances.*.private_ip, aws_spot_instance_request.app-instances.*.private_ip)
+  COMPONENTS = concat(aws_instance.db-instances.*.private_ip, aws_instance.app-instances.*.private_ip)
 }
 
 resource "local_file" "inventory-file" {
-  content     = "[FRONTEND]\n${local.COMPONENTS[9]}\n[PAYMENT]\n${local.COMPONENTS[8]}\n[SHIPPING]\n${local.COMPONENTS[7]}\n[USER]\n${local.COMPONENTS[6]}\n[CATALOGUE]\n${local.COMPONENTS[5]}\n[CART]\n${local.COMPONENTS[4]}\n[REDIS]\n${local.COMPONENTS[3]}\n[RABBITMQ]\n${local.COMPONENTS[2]}\n[MONGODB]\n${local.COMPONENTS[1]}\n[MYSQL]\n${local.COMPONENTS[0]}\n"
+  content     =
+  "[FRONTEND]\n${local.COMPONENTS[9]}\n[PAYMENT]\n${local.COMPONENTS[8]}\n[SHIPPING]\n${local.COMPONENTS[7]}\n[USER]\n${local.COMPONENTS[6]}\n[CATALOGUE]\n${local.COMPONENTS[5]}\n[CART]\n${local.COMPONENTS[4]}\n[REDIS]\n${local.COMPONENTS[3]}\n[RABBITMQ]\n${local.COMPONENTS[2]}\n[MONGODB]\n${local.COMPONENTS[1]}\n[MYSQL]\n${local.COMPONENTS[0]}\n"
   filename    = "/tmp/inv-roboshop-${var.ENV}"
 }
 
@@ -139,7 +140,17 @@ locals {
 }
 
 resource "local_file" "inventory-file" {
-  content     = "[FRONTEND]\n${local.COMPONENTS[9]}\n[PAYMENT]\n${local.COMPONENTS[8]}\n[SHIPPING]\n${local.COMPONENTS[7]}\n[USER]\n${local.COMPONENTS[6]}\n[CATALOGUE]\n${local.COMPONENTS[5]}\n[CART]\n${local.COMPONENTS[4]}\n[REDIS]\n${local.COMPONENTS[3]}\n[RABBITMQ]\n${local.COMPONENTS[2]}\n[MONGODB]\n${local.COMPONENTS[1]}\n[MYSQL]\n${local.COMPONENTS[0]}\n"
+  content     =
+  "[FRONTEND]\n${local.COMPONENTS[9]}\n
+  [PAYMENT]\n${local.COMPONENTS[8]}\n
+  [SHIPPING]\n${local.COMPONENTS[7]}\n
+  [USER]\n${local.COMPONENTS[6]}\n
+  [CATALOGUE]\n${local.COMPONENTS[5]}\n
+  [CART]\n${local.COMPONENTS[4]}\n
+  [REDIS]\n${local.COMPONENTS[3]}\n
+  [RABBITMQ]\n${local.COMPONENTS[2]}\n
+  [MONGODB]\n${local.COMPONENTS[1]}\n
+  [MYSQL]\n${local.COMPONENTS[0]}\n"
   filename    = "/tmp/inv-roboshop-${var.ENV}"
 }
 
