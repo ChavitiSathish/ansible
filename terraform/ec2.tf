@@ -15,23 +15,21 @@ resource "aws_spot_instance_request" "cheap_worker" {
 }
 */
 
-/*
-*/
-
-/*
-*/
-resource "aws_instance" "app-instances" {
+resource "aws_spot_instance_request" "app-instances" {
   count                       = length(var.APP_COMPONENTS)
   ami                         = "ami-074df373d6bafa625"
+  spot_price                  = "0.0031"
   instance_type               = "t3.micro"
   vpc_security_group_ids      = ["sg-083a944fa2575b4b6"]
-  tags                      = {
-    Name                    = "${element(var.APP_COMPONENTS, count.index)}-${var.ENV}"
-    Monitor                 = "yes"
+  wait_for_fulfillment        = true
+  spot_type                   = "persistent"
+  tags                        = {
+    Name                      = "${element(var.APP_COMPONENTS, count.index)}-${var.ENV}"
+    Monitor                   = "yes"
   }
 }
 
-resource "aws_instance" "db-instances" {
+resource "aws_spot_instance_request" "db-instances" {
   count                       = length(var.DB_COMPONENTS)
   ami                         = "ami-074df373d6bafa625"
   instance_type               = "t3.micro"
@@ -48,7 +46,7 @@ resource "aws_route53_record" "app-records" {
   zone_id                   = "Z04263772W7C3YXB6H85"
   ttl                       = 300
   //records                   = [element(aws_instance.instances.*.private_ip, count.index)]
-  records                   = [element(aws_instance.app-instances.*.private_ip, count.index)]
+  records                   = [element("aws_spot_instance_request".app-instances.*.private_ip, count.index)]
 }
 
 resource "aws_route53_record" "db-records" {
@@ -58,11 +56,11 @@ resource "aws_route53_record" "db-records" {
   zone_id                   = "Z04263772W7C3YXB6H85"
   ttl                       = 300
   //records                   = [element(aws_instance.instances.*.private_ip, count.index)]
-  records                   = [element(aws_instance.db-instances.*.private_ip, count.index)]
+  records                   = [element("aws_spot_instance_request".db-instances.*.private_ip, count.index)]
 }
 
 locals {
-  COMPONENTS = concat(aws_instance.db-instances.*.private_ip, aws_instance.app-instances.*.private_ip)
+  COMPONENTS = concat("aws_spot_instance_request".db-instances.*.private_ip, "aws_spot_instance_request".app-instances.*.private_ip)
 }
 
 resource "local_file" "inventory-file" {
