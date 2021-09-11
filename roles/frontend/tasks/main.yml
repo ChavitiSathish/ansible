@@ -33,6 +33,13 @@
   template:
     src: roboshop.conf
     dest: /etc/nginx/default.d/roboshop.conf
+  when: COMPONENT is not defined
+
+- name: Update roboshop configuration file - LB
+  template:
+    src: roboshop-lb.conf
+    dest: /etc/nginx/default.d/roboshop.conf
+  when: COMPONENT is defined
 
 - name: Install Node Exporter
   include_role:
