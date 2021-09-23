@@ -22,5 +22,5 @@
 
 - name: Download from Nexus
   include_tasks:
-    file: download-from-aa.yml
+    file: download-from-az.yml
   when: APP_VERSION is defined
