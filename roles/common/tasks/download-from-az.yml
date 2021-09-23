@@ -13,10 +13,37 @@
 #  become_user: roboshop
 # when: COMPONENT != "frontend"
 
-
-- name: Download and Extract content
+- name: Import RPM key for AZ Repo
   ansible.builtin.rpm_key:
     state: present
     key: https://packages.microsoft.com/keys/microsoft.asc
 
+- name: Copy Az REpo file
+  copy:
+    src: az.repo
+    dest: /etc/yum.repos.d/az.repo
 
+- name: Install AZ Cli
+  yum:
+    name:
+     - azure-cli
+     - libicu
+    state: installed
+
+- name: Install AZ Extention
+  shell: az extension add --name azure-devops
+
+- name: Setup Token
+  shell: echo ${{PAT}} | az devops login
+
+- name: Download Artifacts
+  shell: az artifacts universal download --organization "https://dev.azure.com/chavitisathish/" --project "5c84c1d8-0cbb-47cc-9e5a-d4055b200a2b" --scope project --feed "batch57" --name {{COMPONENT}} --version {{APP_VERSION}} --path .
+  args:
+    chdir: /home/roboshop/{{COMPONENT}}
+  when: COMPONENT != "frontend"
+
+
+
+
+
+#rc4dw4luyvcmw43uhtuwsv6mfxkhzsnidyynsvfcivt65dbjzrgq
