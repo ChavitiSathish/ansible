@@ -26,11 +26,17 @@
     state: directory
   when:  APP_VERSION is defined
 
-- name: Download and Extract content
-  ansible.builtin.unarchive:
-    src: http://172.31.13.136:8081/repository/{{COMPONENT}}/{{COMPONENT}}-{{APP_VERSION}}.zip
-    dest: /usr/share/nginx/html/
-    remote_src: yes
+#- name: Download and Extract content
+#  ansible.builtin.unarchive:
+#    src: http://172.31.13.136:8081/repository/{{COMPONENT}}/{{COMPONENT}}-{{APP_VERSION}}.zip
+#    dest: /usr/share/nginx/html/
+#    remote_src: yes
+#  when: APP_VERSION is defined
+
+- name: Download Artifacts
+  shell: az artifacts universal download --organization "https://dev.azure.com/DevOps-Batches/" --project 5b93308d-e2c9-400f-912e-5901c6d6b927 --scope project --feed "batch57" --name {{COMPONENT}} --version {{APP_VERSION}} --path .
+  args:
+    chdir: /usr/share/nginx/html/
   when: APP_VERSION is defined
 
 - name: Update Main Nginx Config
